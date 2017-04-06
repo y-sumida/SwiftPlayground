@@ -13,9 +13,10 @@ for i in 0..<10 {
     parent.children.append(child)
 }
 
+
 func flatten(hoge: [hoge]) -> [String] {
     var result: [String] = []
-    hoge.map {
+    hoge.flatMap {
         flattenImple(hoge: $0, result: &result)
     }
     
@@ -24,7 +25,7 @@ func flatten(hoge: [hoge]) -> [String] {
 
 func flattenImple(hoge: hoge, result: inout Array<String>) {
     result.append(hoge.name)
-    hoge.children.map {
+    hoge.children.flatMap {
         flattenImple(hoge: $0, result: &result)
     }
 }
@@ -32,7 +33,14 @@ func flattenImple(hoge: hoge, result: inout Array<String>) {
 var array: [String] = []
 flattenImple(hoge: parent, result: &array)
 
-let result = flatten(hoge: [parent, parent])
+let result = flatten(hoge: [parent])
 dump(result)
+
+var fuga: [String] = []
+fuga.append(parent.name)
+parent.children.flatMap {
+    flattenImple(hoge: $0, result: &fuga)
+}
+dump(fuga)
 
 
