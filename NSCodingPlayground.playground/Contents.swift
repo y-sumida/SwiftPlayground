@@ -40,6 +40,19 @@ if let data = sharedInstance.object(forKey: "hoge") as? Data {
     dump(result)
 }
 
+// 単純な型ならこっちのほうがいいかも
+struct Fuga {
+    var id: Int
+    var name: String
 
+    func asDictionary() -> [String: Any] {
+        return ["id": id, "name": name]
+    }
+}
 
+let fuga = Fuga(id: 1, name: "fugafuga")
 
+sharedInstance.set(fuga.asDictionary(), forKey: "fuga")
+sharedInstance.synchronize()
+
+dump(sharedInstance.object(forKey: "fuga") as? [String: Any])
