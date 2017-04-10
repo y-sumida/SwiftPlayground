@@ -18,3 +18,6 @@ dump(filterResult)
 let lazyResult = items.lazy.filter { $0 % 2 == 0 }.first
 dump(lazyResult)
 
+let lazyResult2 = items.lazy.filter { $0 % 2 == 0 } //この段階では999要素ある
+dump(lazyResult2.first) // ここで初めて評価
+
