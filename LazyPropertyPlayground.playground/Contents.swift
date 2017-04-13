@@ -11,12 +11,18 @@ class Hoge {
         self.y = y
     }
 
+    deinit {
+        print("deinit")
+    }
+
     func calc() -> Int {
         return x + y
     }
 }
 
-let hoge: Hoge = Hoge(x: 10, y: 20)
+var hoge: Hoge! = Hoge(x: 10, y: 20)
 dump(hoge) // z.storage: nil
 
 print(hoge.z) // 30
+
+hoge = nil // deinit
