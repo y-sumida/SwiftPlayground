@@ -25,4 +25,7 @@ dump(hoge) // z.storage: nil
 
 print(hoge.z) // 30
 
+hoge.x = 100
+print(hoge.z) // 30 120じゃないよ
+
 hoge = nil // deinit
