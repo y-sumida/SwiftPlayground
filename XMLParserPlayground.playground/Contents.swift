@@ -3,12 +3,21 @@
 import UIKit
 import PlaygroundSupport
 
+class Item {
+    var title : String = ""
+    var url : String = ""
+}
+
 class MyViewController: UIViewController, XMLParserDelegate {
     var parser: XMLParser!
+    var entries: [Item] = []
     
+    var key : String = ""
+    var tmpItem : Item!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let urlString = "http://b.hatena.ne.jp/hotentry/it.rss"
         let url: URL = URL(string: urlString)!
 
@@ -19,15 +28,31 @@ class MyViewController: UIViewController, XMLParserDelegate {
     }
 
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        print("Start Tag:" + elementName)
+
+        if elementName == "item" {
+            tmpItem = Item()
+            entries.append(tmpItem)
+        }
+        else {
+            key = elementName
+        }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        print("Element:" + string)
+        if key == "title" {
+            if (tmpItem != nil) {
+                tmpItem.title = string
+            }
+        }
+        else if key == "link" {
+            if (tmpItem != nil) {
+                tmpItem.url = string
+            }
+        }
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        print("End Tag:" + elementName)
+        key = ""
     }
 
     func parserDidStartDocument(_ parser: XMLParser) {
@@ -35,7 +60,10 @@ class MyViewController: UIViewController, XMLParserDelegate {
     }
 
     func parserDidEndDocument(_ parser: XMLParser) {
-        print("Pase End")
+        entries.forEach { item in
+            print(item.title)
+            print(item.url)
+        }
     }
 
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
