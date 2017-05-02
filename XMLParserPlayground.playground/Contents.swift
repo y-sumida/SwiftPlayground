@@ -6,6 +6,7 @@ import PlaygroundSupport
 class Item {
     var title : String = ""
     var url : String = ""
+    var bookmarkCount: Int = 0
 }
 
 class MyViewController: UIViewController, XMLParserDelegate {
@@ -49,6 +50,11 @@ class MyViewController: UIViewController, XMLParserDelegate {
                 tmpItem.url = string
             }
         }
+        else if key == "hatena:bookmarkcount" {
+            if (tmpItem != nil) {
+                tmpItem.bookmarkCount = Int(string)!
+            }
+        }
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
@@ -63,6 +69,7 @@ class MyViewController: UIViewController, XMLParserDelegate {
         entries.forEach { item in
             print(item.title)
             print(item.url)
+            print(item.bookmarkCount)
         }
     }
 
